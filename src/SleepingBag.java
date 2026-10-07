@@ -10,6 +10,19 @@ public class SleepingBag {
         this.name = name;
         this.basePrice = basePrice;
     }
+
+    //сетееер
+    public void setBasePrice(double basePrice) {
+        if (basePrice < 0) {
+            throw new IllegalArgumentException(
+                    "Цена не может быть отрицательной"
+            );
+        }
+
+        this.basePrice = basePrice;
+    }
+
+
     //гетрыы
     public String getName() {
         return name;
