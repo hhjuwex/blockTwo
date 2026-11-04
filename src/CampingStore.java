@@ -1,3 +1,4 @@
+public class CampingStore {
 
 
     private static int totalOrdersCount = 0;
@@ -78,3 +79,4 @@
         // 5. Вывод итогов
         printGlobalStats();
     }
+}
