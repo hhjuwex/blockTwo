@@ -1,11 +1,8 @@
 public class CampingStore {
-    //статика для всей сети магазинов
     private static int totalOrdersCount = 0;
     private static double totalRevenue = 0;
-    //поля
     private final NotificationService notificationService;
 
-    //способ уведомления передается снаружи (Dependency Injection)
     public CampingStore(NotificationService notificationService) {
         this.notificationService = notificationService;
     }
@@ -37,7 +34,7 @@ public class CampingStore {
         notificationService.sendNotification(receipt, contact);
     }
 
-    //гетрыы
+
     public static int getTotalOrdersCount() {
         return totalOrdersCount;
     }
@@ -66,11 +63,11 @@ public class CampingStore {
         System.out.println("Аренда снаряжения");
         System.out.println();
 
-        // 1. создаем спальный мешок
+        // 1 спальный мешок
         SleepingBag sleepingBag = new SleepingBag("Warm Bag", 800);
 
-        // 2. магазин с SMS-уведомлениями
-        // + аренда для физ. лица
+        // 2 магазин с смс
+        // + аренда для физ лица
         CampingStore smsStore = new CampingStore(new SmsNotification());
 
         Tent userTent = new UserTent("Family Tent", 3000, "4-person");
@@ -80,8 +77,8 @@ public class CampingStore {
 
         System.out.println();
 
-        // 3. магазин с Email-уведомлениями
-        // + аренда для юр. лица на 5 палаток
+        // 3 магазин с email уведомлениями
+        // аренда для юр лица на 5 палаток
         CampingStore emailStore = new CampingStore(new EmailNotification());
 
         Tent corporateTent = new CorporateTent("Big Camping Tent", 4000, "CampingTent", 5);
@@ -91,7 +88,7 @@ public class CampingStore {
 
         System.out.println();
 
-        // 4. проверки некорректных данных
+        // 4 проверки некорректных данных
         System.out.println("--- Проверки ---");
 
         // цена <= 0 и неизвестный размер
@@ -102,7 +99,7 @@ public class CampingStore {
 
         System.out.println();
 
-        // количество палаток < 1 и зимний спальник для юр. лица
+        // количество палаток < 1 и зимний мешок для юр лица
         Tent badCorporate = new CorporateTent("Small Tent", 2000, "2-person", 0);
 
         double price4 = badCorporate.calculateFinalPrice(sleepingBag, true);
@@ -110,7 +107,7 @@ public class CampingStore {
 
         System.out.println();
 
-        // 5. Вывод итогов
+        // 5 итогои
         printGlobalStats();
     }
 }

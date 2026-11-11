@@ -1,4 +1,4 @@
-//аренда для физ. лица
+
 public class UserTent extends Tent {
 
     public UserTent(String name, double basePrice, String size) {
@@ -9,7 +9,6 @@ public class UserTent extends Tent {
         super(name, basePrice);
     }
 
-    //как в 1 части: базовая цена * коэффициент размера
     @Override
     public double calculateFinalPrice() {
         return getPriceWithSize();

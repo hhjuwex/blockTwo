@@ -1,6 +1,6 @@
-//аренда для юр. лица (например турфирма берет сразу несколько палаток)
+
 public class CorporateTent extends Tent {
-    //поля
+
     private final int tentsCount;
 
     public CorporateTent(String name, double basePrice, String size, int tentsCount) {
@@ -14,13 +14,11 @@ public class CorporateTent extends Tent {
         this.tentsCount = tentsCount;
     }
 
-    //(базовая цена * коэффициент размера) * количество палаток
     @Override
     public double calculateFinalPrice() {
         return getPriceWithSize() * tentsCount;
     }
 
-    //корпоративным клиентам зимние спальники не выдаются
     @Override
     public double calculateFinalPrice(SleepingBag bag, boolean isWarm) {
         if (isWarm) {
