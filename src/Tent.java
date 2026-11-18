@@ -1,19 +1,22 @@
-public class Tent {
-    //константыы
+public abstract class Tent {
     private static final double TWO_PERSON_COEFFICIENT = 1.0;
     private static final double FOUR_PERSON_COEFFICIENT = 1.6;
     private static final double CAMPING_TENT_COEFFICIENT = 2.3;
+    private static final double DEFAULT_COEFFICIENT = 1.0;
     private static final double WARM_SLEEPING_BAG_COEFFICIENT = 1.5;
-    //поля
+    private static final double MIN_PRICE = 100.0;
+
     private final String name;
     private final double basePrice;
     private final String size;
 
     private SleepingBag appliedOption = null;
-    //инициализация
+
     public Tent(String name, double basePrice, String size) {
-        if (basePrice < 0) {
-            throw new IllegalArgumentException("Цена не может быть отрицательной");
+        if (basePrice <= 0) {
+            System.out.println("[WARNING] Цена " + basePrice
+                    + " некорректна, установлена минимальная: " + MIN_PRICE);
+            basePrice = MIN_PRICE;
         }
         this.name = name;
         this.basePrice = basePrice;
@@ -24,17 +27,25 @@ public class Tent {
         this(name, basePrice, "2-person");
     }
 
-    public double calculateFinalPrice() {
-        double coefficient = switch (size) {
+
+    public abstract double calculateFinalPrice();
+
+
+    protected double getPriceWithSize() {
+        return basePrice * getSizeCoefficient();
+    }
+
+    protected double getSizeCoefficient() {
+        return switch (size) {
             case "2-person" -> TWO_PERSON_COEFFICIENT;
             case "4-person" -> FOUR_PERSON_COEFFICIENT;
             case "CampingTent" -> CAMPING_TENT_COEFFICIENT;
-            default -> throw new IllegalArgumentException(
-                    "Неизвестный размер палатки: " + size
-            );
+            default -> {
+                System.out.println("[ADMIN] Неизвестный размер палатки: \"" + size
+                        + "\". Применен коэффициент " + DEFAULT_COEFFICIENT);
+                yield DEFAULT_COEFFICIENT;
+            }
         };
-
-        return basePrice * coefficient;
     }
 
     public double calculateFinalPrice(SleepingBag bag) {
@@ -69,13 +80,4 @@ public class Tent {
     public SleepingBag getAppliedOption() {
         return appliedOption;
     }
-
-
-
-
 }
-
-
-
-
-
