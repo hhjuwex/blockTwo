@@ -12,6 +12,13 @@ public class UserTent extends Tent {
 
     @Override
     public double calculateFinalPrice() {
-        return getPriceWithSize();
+
+        double totalPrice = getPriceWithSize();
+
+        for (SleepingBag bag : getAppliedBags()) {
+            totalPrice += bag.getBasePrice();
+        }
+
+        return totalPrice;
     }
 }
