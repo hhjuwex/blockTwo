@@ -2,72 +2,72 @@
 
 ```mermaid
 classDiagram
-class NotificationService {
+class main.java.org.sky.service.service.NotificationService {
     <<interface>>
     +sendNotification(String message, String recipient) void
 }
-class EmailNotification {
+class main.java.org.sky.service.service.impl.EmailNotification {
     +sendNotification(String message, String recipient) void
 }
-class SmsNotification {
+class main.java.org.sky.service.service.impl.SmsNotification {
     -MIN_PHONE_LENGTH$ int
     +sendNotification(String message, String recipient) void
 }
-class SleepingBag {
+class main.java.org.sky.service.model.SleepingBag {
     -name : String
     -basePrice : double
-    +SleepingBag(String name, double basePrice)
+    +main.java.org.sky.service.model.SleepingBag(String name, double basePrice)
     +setBasePrice(double basePrice) void
     +getName() String
     +getBasePrice() double
 }
-class Tent {
+class main.java.org.sky.service.model.Tent {
     <<abstract>>
     -name : String
     -basePrice : double
     -size : String
-    -appliedOption : SleepingBag
-    +Tent(String name, double basePrice, String size)
-    +Tent(String name, double basePrice)
+    -appliedOption : main.java.org.sky.service.model.SleepingBag
+    +main.java.org.sky.service.model.Tent(String name, double basePrice, String size)
+    +main.java.org.sky.service.model.Tent(String name, double basePrice)
     +calculateFinalPrice()* double
-    +calculateFinalPrice(SleepingBag bag) double
-    +calculateFinalPrice(SleepingBag bag, boolean isWarm) double
+    +calculateFinalPrice(main.java.org.sky.service.model.SleepingBag bag) double
+    +calculateFinalPrice(main.java.org.sky.service.model.SleepingBag bag, boolean isWarm) double
     #getPriceWithSize() double
     #getSizeCoefficient() double
     +getName() String
     +getBasePrice() double
     +getSize() String
-    +getAppliedOption() SleepingBag
+    +getAppliedOption() main.java.org.sky.service.model.SleepingBag
 }
-class UserTent {
-    +UserTent(String name, double basePrice, String size)
-    +UserTent(String name, double basePrice)
+class main.java.org.sky.service.model.UserTent {
+    +main.java.org.sky.service.model.UserTent(String name, double basePrice, String size)
+    +main.java.org.sky.service.model.UserTent(String name, double basePrice)
     +calculateFinalPrice() double
 }
-class CorporateTent {
+class main.java.org.sky.service.model.CorporateTent {
     -tentsCount : int
-    +CorporateTent(String name, double basePrice, String size, int tentsCount)
+    +main.java.org.sky.service.model.CorporateTent(String name, double basePrice, String size, int tentsCount)
     +calculateFinalPrice() double
-    +calculateFinalPrice(SleepingBag bag, boolean isWarm) double
+    +calculateFinalPrice(main.java.org.sky.service.model.SleepingBag bag, boolean isWarm) double
     +getTentsCount() int
 }
-class CampingStore {
+class main.java.org.sky.service.billing.CampingStore {
     -totalOrdersCount$ int
     -totalRevenue$ double
-    -notificationService : NotificationService
-    +CampingStore(NotificationService notificationService)
-    +processPayment(Tent tent, String contact, double finalPrice) void
+    -notificationService : main.java.org.sky.service.service.NotificationService
+    +main.java.org.sky.service.billing.CampingStore(main.java.org.sky.service.service.NotificationService notificationService)
+    +processPayment(main.java.org.sky.service.model.Tent tent, String contact, double finalPrice) void
     +getTotalOrdersCount()$ int
     +getTotalRevenue()$ double
     +printGlobalStats()$ void
     +main(String[] args)$ void
 }
 
-NotificationService <|.. EmailNotification : реализует
-NotificationService <|.. SmsNotification : реализует
-Tent <|-- UserTent : наследует
-Tent <|-- CorporateTent : наследует
-Tent "1" o-- "0..1" SleepingBag : appliedOption
-CampingStore "1" --> "1" NotificationService : использует (DI)
-CampingStore ..> Tent : обрабатывает
+main.java.org.sky.service.service.NotificationService <|.. main.java.org.sky.service.service.impl.EmailNotification : реализует
+main.java.org.sky.service.service.NotificationService <|.. main.java.org.sky.service.service.impl.SmsNotification : реализует
+main.java.org.sky.service.model.Tent <|-- main.java.org.sky.service.model.UserTent : наследует
+main.java.org.sky.service.model.Tent <|-- main.java.org.sky.service.model.CorporateTent : наследует
+main.java.org.sky.service.model.Tent "1" o-- "0..1" main.java.org.sky.service.model.SleepingBag : appliedOption
+main.java.org.sky.service.billing.CampingStore "1" --> "1" main.java.org.sky.service.service.NotificationService : использует (DI)
+main.java.org.sky.service.billing.CampingStore ..> main.java.org.sky.service.model.Tent : обрабатывает
 ```

@@ -1,3 +1,5 @@
+package org.sky.service.model;
+
 public class SleepingBag {
     private final String name;
     private double basePrice;

@@ -1,3 +1,7 @@
+package org.sky.service.service.impl;
+
+import org.sky.service.service.NotificationService;
+
 public class EmailNotification implements NotificationService {
     @Override
     public void sendNotification(String message, String recipient) {

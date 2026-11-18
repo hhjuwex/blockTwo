@@ -1,3 +1,5 @@
+package org.sky.service.model;
+
 public abstract class Tent {
     private static final double TWO_PERSON_COEFFICIENT = 1.0;
     private static final double FOUR_PERSON_COEFFICIENT = 1.6;

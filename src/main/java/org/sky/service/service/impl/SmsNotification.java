@@ -1,3 +1,7 @@
+package org.sky.service.service.impl;
+
+import org.sky.service.service.NotificationService;
+
 public class SmsNotification implements NotificationService {
     private static final int MIN_PHONE_LENGTH = 11;
 

@@ -1,3 +1,4 @@
+package org.sky.service.model;
 
 public class UserTent extends Tent {
 
