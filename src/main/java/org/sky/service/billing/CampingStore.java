@@ -170,14 +170,14 @@ public class CampingStore {
         return database;
     }
 
-    // 1. Поиск VIP-клиентов с чеком выше заданной суммы (Stream API)
+    // 1. Поиск VIP-клиентов с чеком выше заданной суммы
     public List<Tent> findVipClients(double minAmount) {
         return database.values().stream()
                 .filter(tent -> tent.calculateFinalPrice() > minAmount)
                 .toList();
     }
 
-    // 2. Прогнозируемая выручка по всей базе (Stream API + ссылка на метод)
+    // 2. Прогнозируемая выручка по всей базе
     public double calculateTotalRevenue() {
         double total = database.values().stream()
                 .mapToDouble(Tent::calculateFinalPrice)
@@ -185,7 +185,7 @@ public class CampingStore {
         return Math.round(total * 100.0) / 100.0;
     }
 
-    // 3. Подсчет количества палаток определенного размера (Stream API)
+    // 3. Подсчет количества палаток определенного размера
     public long countBySize(String size) {
         return database.values().stream()
                 .filter(tent -> tent.getSize().equalsIgnoreCase(size))

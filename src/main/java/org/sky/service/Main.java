@@ -32,7 +32,7 @@ public class Main {
         generateTestUsers(store, 50);
 
         // 2. Аналитика через Stream API
-        System.out.println("\n=== АНАЛИТИКА STREAM API ===");
+        System.out.println("\n--- АНАЛИТИКА STREAM API ---");
 
         System.out.println("Всего записей в базе: "
                 + store.getDatabase().size());
@@ -148,7 +148,6 @@ public class Main {
 
         for (int i = 0; i < count; i++) {
 
-            // Индекс в начале гарантирует уникальность ключей в HashMap
             String email = i + "_" + emailFaker.internet().emailAddress();
             String name = faker.commerce().productName();
             String size = sizes[faker.random().nextInt(sizes.length)];
@@ -156,7 +155,7 @@ public class Main {
 
             Tent tent;
 
-            // Каждый 5-й клиент — корпоративный (демонстрация @SuperBuilder)
+            // Каждый 5-й клиент корпоративный
             if (i % 5 == 0) {
                 tent = CorporateTent.builder()
                         .name(name)
@@ -193,7 +192,7 @@ public class Main {
 
             try {
                 store.registerTent(email, tent);
-                // Пополняем баланс, чтобы клиент мог оплатить аренду
+                // пополнение баланса
                 store.addFunds(email, faker.number()
                         .numberBetween(5000, 100000));
             } catch (DuplicateSubscriptionException |

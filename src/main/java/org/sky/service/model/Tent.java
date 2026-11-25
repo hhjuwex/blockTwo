@@ -30,7 +30,7 @@ public abstract class Tent {
     @Builder.Default
     private final List<SleepingBag> appliedBags = new ArrayList<>();
 
-    // Промокод со скидкой (может отсутствовать)
+    // Промокод со скидкой
     @Setter
     private PromoCode appliedPromo;
 
@@ -83,14 +83,14 @@ public abstract class Tent {
         };
     }
 
-    // Сумма всех дополнительных услуг (Stream API)
+    // Сумма всех дополнительных услуг
     protected double calculateBagsTotal() {
         return appliedBags.stream()
                 .mapToDouble(SleepingBag::getBasePrice)
                 .sum();
     }
 
-    // Применение скидки по промокоду (если он задан)
+    // Применение скидки по промокоду
     protected double applyPromoDiscount(double totalPrice) {
         if (appliedPromo != null) {
             double discount = appliedPromo.getDiscountPercent() / 100.0;
