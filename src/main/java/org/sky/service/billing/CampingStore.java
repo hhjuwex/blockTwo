@@ -9,9 +9,11 @@ import org.sky.service.model.Tent;
 import org.sky.service.service.NotificationService;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 public class CampingStore {
 
@@ -162,6 +164,38 @@ public class CampingStore {
     public double getBalance(String email) {
         String normalizedEmail = normalizeEmail(email);
         return balances.getOrDefault(normalizedEmail, 0.0);
+    }
+
+    public Map<String, Tent> getDatabase() {
+        return database;
+    }
+
+    // 1. Поиск VIP-клиентов с чеком выше заданной суммы (Stream API)
+    public List<Tent> findVipClients(double minAmount) {
+        return database.values().stream()
+                .filter(tent -> tent.calculateFinalPrice() > minAmount)
+                .toList();
+    }
+
+    // 2. Прогнозируемая выручка по всей базе (Stream API + ссылка на метод)
+    public double calculateTotalRevenue() {
+        double total = database.values().stream()
+                .mapToDouble(Tent::calculateFinalPrice)
+                .sum();
+        return Math.round(total * 100.0) / 100.0;
+    }
+
+    // 3. Подсчет количества палаток определенного размера (Stream API)
+    public long countBySize(String size) {
+        return database.values().stream()
+                .filter(tent -> tent.getSize().equalsIgnoreCase(size))
+                .count();
+    }
+
+    // 4. Группировка палаток по размерам (Collectors.groupingBy)
+    public Map<String, List<Tent>> groupTentsBySize() {
+        return database.values().stream()
+                .collect(Collectors.groupingBy(Tent::getSize));
     }
 
     public static int getTotalOrdersCount() {

@@ -1,5 +1,10 @@
 package org.sky.service.model;
 
+import lombok.ToString;
+import lombok.experimental.SuperBuilder;
+
+@ToString(callSuper = true)
+@SuperBuilder
 public class UserTent extends Tent {
 
     public UserTent(String name, double basePrice, String size) {
@@ -13,12 +18,8 @@ public class UserTent extends Tent {
     @Override
     public double calculateFinalPrice() {
 
-        double totalPrice = getPriceWithSize();
+        double totalPrice = getPriceWithSize() + calculateBagsTotal();
 
-        for (SleepingBag bag : getAppliedBags()) {
-            totalPrice += bag.getBasePrice();
-        }
-
-        return totalPrice;
+        return Math.round(applyPromoDiscount(totalPrice) * 100.0) / 100.0;
     }
 }

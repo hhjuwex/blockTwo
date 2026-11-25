@@ -1,8 +1,11 @@
 package org.sky.service.service.impl;
 
+import lombok.extern.slf4j.Slf4j;
 import org.sky.service.service.NotificationService;
 
+@Slf4j
 public class SmsNotification implements NotificationService {
+
     private static final int MIN_PHONE_LENGTH = 11;
 
     @Override
@@ -10,12 +13,10 @@ public class SmsNotification implements NotificationService {
         if (recipient == null
                 || !(recipient.startsWith("+7") || recipient.startsWith("8"))
                 || recipient.length() < MIN_PHONE_LENGTH) {
-            System.out.println("[WARNING] Некорректный номер: " + recipient
-                    + ". SMS не отправлено");
+            log.warn("Некорректный номер: {}. SMS не отправлено", recipient);
             return;
         }
 
-        System.out.println("[SMS] На номер " + recipient
-                + " отправлено сообщение: " + message);
+        log.info("[SMS] На номер {} отправлено сообщение: {}", recipient, message);
     }
 }

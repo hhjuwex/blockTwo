@@ -1,11 +1,19 @@
 package org.sky.service.model;
 
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+import lombok.experimental.SuperBuilder;
 import org.sky.service.exception.InvalidSubscriptionException;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+@Getter
+@ToString
+@SuperBuilder
 public abstract class Tent {
 
     private static final double TWO_PERSON_COEFFICIENT = 1.0;
@@ -19,7 +27,12 @@ public abstract class Tent {
     private final String size;
 
     // Список дополнительных услуг
+    @Builder.Default
     private final List<SleepingBag> appliedBags = new ArrayList<>();
+
+    // Промокод со скидкой (может отсутствовать)
+    @Setter
+    private PromoCode appliedPromo;
 
     public Tent(String name, double basePrice, String size) {
 
@@ -38,6 +51,7 @@ public abstract class Tent {
         this.name = name;
         this.basePrice = basePrice;
         this.size = size;
+        this.appliedBags = new ArrayList<>();
     }
 
     public Tent(String name, double basePrice) {
@@ -69,6 +83,23 @@ public abstract class Tent {
         };
     }
 
+    // Сумма всех дополнительных услуг (Stream API)
+    protected double calculateBagsTotal() {
+        return appliedBags.stream()
+                .mapToDouble(SleepingBag::getBasePrice)
+                .sum();
+    }
+
+    // Применение скидки по промокоду (если он задан)
+    protected double applyPromoDiscount(double totalPrice) {
+        if (appliedPromo != null) {
+            double discount = appliedPromo.getDiscountPercent() / 100.0;
+            return totalPrice * (1.0 - discount);
+        }
+
+        return totalPrice;
+    }
+
     // Добавление обычного спальника
     public void addBag(SleepingBag bag) {
         addBag(bag, false);
@@ -91,18 +122,6 @@ public abstract class Tent {
 
         // Сохраняем отдельный объект с рассчитанной стоимостью
         appliedBags.add(new SleepingBag(bag.getName(), bagPrice));
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public double getBasePrice() {
-        return basePrice;
-    }
-
-    public String getSize() {
-        return size;
     }
 
     public List<SleepingBag> getAppliedBags() {

@@ -1,5 +1,12 @@
 package org.sky.service.model;
 
+import lombok.Getter;
+import lombok.ToString;
+import lombok.experimental.SuperBuilder;
+
+@Getter
+@ToString(callSuper = true)
+@SuperBuilder
 public class CorporateTent extends Tent {
 
     private final int tentsCount;
@@ -24,16 +31,9 @@ public class CorporateTent extends Tent {
     @Override
     public double calculateFinalPrice() {
 
-        double totalPrice = getPriceWithSize() * tentsCount;
+        double totalPrice = getPriceWithSize() * tentsCount
+                + calculateBagsTotal();
 
-        for (SleepingBag bag : getAppliedBags()) {
-            totalPrice += bag.getBasePrice();
-        }
-
-        return totalPrice;
-    }
-
-    public int getTentsCount() {
-        return tentsCount;
+        return Math.round(applyPromoDiscount(totalPrice) * 100.0) / 100.0;
     }
 }
